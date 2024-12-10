@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        img {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>QR Code Viewer</h1>
+    <button id="update-qr">Atualizar QR Code</button>
+    <div id="qr-code-container">
+        <img id="qr-code" src="" alt="QR Code">
+    </div>
+
+    <script>
+        const qrCodeImg = document.getElementById('qr-code');
+        const updateButton = document.getElementById('update-qr');
+
+        // Atualizar QR Code
+        const updateQRCode = async () => {
+            try {
+                const response = await fetch('/api/qrcode');
+                if (response.ok) {
+                    const data = await response.json();
+                    qrCodeImg.src = `data:image/png;base64,${data.qrCode}`;
+                } else {
+                    alert('Erro ao atualizar o QR Code');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+        };
+
+        // Carregar QR Code ao abrir a página
+        updateQRCode();
+
+        // Atualizar ao clicar no botão
+        updateButton.addEventListener('click', updateQRCode);
+    </script>
+</body>
+</html>
