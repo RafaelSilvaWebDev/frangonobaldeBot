@@ -6,8 +6,8 @@ const path = require('path');
 const { Client, MessageMedia } = require('whatsapp-web.js');
 
 const app = express();
-const client = new Client({
-    authStrategy: new LocalAuth(),
+const client = new Client(
+{
     puppeteer: {
         args: ['--no-sandbox', '--disable-setuid-sandbox']
     }
@@ -28,13 +28,6 @@ client.on('ready', () => {
     console.log('Tudo certo! WhatsApp conectado.');
 });
 
-client.on('auth_failure', (msg) => {
-    console.error('Falha na autenticação:', msg);
-});
-
-client.on('disconnected', (reason) => {
-    console.log('Cliente desconectado:', reason);
-});
 
 // Configuração da API para servir o QR Code
 app.get('/api/qrcode', (req, res) => {
