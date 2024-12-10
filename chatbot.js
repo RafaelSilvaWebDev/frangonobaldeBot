@@ -6,7 +6,11 @@ const path = require('path');
 const { Client, MessageMedia } = require('whatsapp-web.js');
 
 const app = express();
-const client = new Client();
+const client = new Client({
+    puppeteer: {
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    }
+});
 
 // Serviço de QR Code
 client.on('qr', async qr => {
